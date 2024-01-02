@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     public GameObject upperPart;
     public GameObject lowerPart;
@@ -20,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        if (!IsOwner)
+            return;
+
         movementSpeed = 5f;
 
         angularSpeed = 200f;
@@ -29,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!IsOwner) // ensures that only own player is moved
+            return;
+
         HandleMovement();
         HandleRotation();
     }
