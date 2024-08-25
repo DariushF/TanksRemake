@@ -11,7 +11,16 @@ using UnityEngine;
 
 public class RelayManager : MonoBehaviour
 {
-    
+    public static RelayManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
+
     private async void Start()
     {
         await UnityServices.InitializeAsync();
@@ -25,7 +34,7 @@ public class RelayManager : MonoBehaviour
     }
 
 
-    private async void CreateRelay() 
+    public async void CreateRelay() 
     {
         try {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(1);
@@ -43,7 +52,7 @@ public class RelayManager : MonoBehaviour
         }
     }
 
-    private async void JoinRelay(string joinCode)
+    public async void JoinRelay(string joinCode)
     {
         try {
             Debug.Log("joining Relay with " + joinCode);
@@ -53,6 +62,7 @@ public class RelayManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
             NetworkManager.Singleton.StartClient();
+
         } catch (RelayServiceException e) {
             Debug.Log(e);
         }
