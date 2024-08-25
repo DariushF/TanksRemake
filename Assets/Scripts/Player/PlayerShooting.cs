@@ -61,6 +61,9 @@ namespace Player
             _bullet.bulletVelocity = bulletVelocity;
             bullets.AddLast(_bullet);
             _bullet.Destroyed += OnBulletDestroyed;
+
+            NetworkObject _bulletNO = _bulletGO.GetComponent<NetworkObject>();
+            _bulletNO.Spawn(true);
         }
 
         public void OnBulletDestroyed(object source, BulletEventArgs args)
