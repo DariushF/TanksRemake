@@ -24,6 +24,9 @@ namespace Player
 
         private void Update()
         {
+            if (!IsOwner)
+                return;
+
             HandleShootingInput();   
         }
 
